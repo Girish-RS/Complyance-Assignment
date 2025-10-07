@@ -185,5 +185,3 @@ This project is open-source and free to use for educational and demonstration pu
 
 ---
 
-**GitHub Repository:**  
-👉 [https://github.com/your-username/invoicing-roi-simulator](https://github.com/Girish-RS/Complayance-Assignment)
