@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify, render_template
-import sqlite3, re, io, os
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
+import sqlite3, os
 
-app = Flask(__name__)
+# Explicitly tell Flask where templates are
+app = Flask(__name__, template_folder='templates')
 
+# Initialize SQLite database
 def init_db():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
@@ -18,6 +18,7 @@ def init_db():
 
 init_db()
 
+# Internal constants
 AUTOMATED_COST_PER_INVOICE = 0.20
 ERROR_RATE_AUTO = 0.001
 MIN_ROI_BOOST_FACTOR = 1.1
@@ -39,6 +40,7 @@ def simulate():
     time_horizon_months = float(data.get('time_horizon_months', 36))
     one_time_implementation_cost = float(data.get('one_time_implementation_cost', 50000))
 
+    # Calculation logic
     labor_cost_manual = num_ap_staff * hourly_wage * avg_hours_per_invoice * monthly_invoice_volume
     auto_cost = monthly_invoice_volume * AUTOMATED_COST_PER_INVOICE
     error_savings = (error_rate_manual - ERROR_RATE_AUTO) * monthly_invoice_volume * error_cost
@@ -59,4 +61,4 @@ def simulate():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port)
